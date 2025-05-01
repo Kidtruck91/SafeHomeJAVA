@@ -10,37 +10,18 @@ public class Main {
         System.out.println("Initializing HomeSafe System...");
         System.out.println("System initialized successfully.");
         System.out.println("Welcome to the HomeSafe System!");
-        System.out.println("Please press 1 to create a new user or 2 to login as an admin.");
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-        if (choice == 1) {
-            System.out.print("Enter your name: ");
-            String name = scanner.nextLine();
-            System.out.print("Enter your email: ");
-            String email = scanner.nextLine();
-            System.out.print("Enter your password: ");
-            String password = scanner.nextLine();
-            System.out.print("Enter your phone number: ");
-            String phoneNumber = scanner.nextLine();
-
-            HomeUser homeUser = new HomeUser(name, email, password, phoneNumber);
-            System.out.println("User created successfully!");
-        } else if (choice == 2) {
-            System.out.print("Enter admin password: ");
-            String adminPassword = scanner.nextLine();
-            if (adminPassword.equals(homeAdminUser.password)) {
-                System.out.println("Admin logged in successfully!");
-                homeAdminUser.login();
-            } else {
-                System.out.println("Invalid admin password.");
-            }
-        } else {
-            System.out.println("Invalid choice.");
-        }
+        System.out.println("Please login with default credentials to continue. ");
+        System.out.println("Username: " );
+        String username = scanner.nextLine();
+        System.out.println("Password: " );
+        String password = scanner.nextLine();
+        // Check if the user is an admin
+        do {homeAdminUser.login(username, password);}
+        while (homeAdminUser.login(username, password) == false);
 
         while (true) {
             System.out.println("Welcome to the Home User System");
-            System.out.println("1. View Camera Feed");
+            System.out.println("1. Manage User Accounts");
             System.out.println("2. Set Alarm");
             System.out.println("3. Configure Device");
             System.out.println("4. Login");
@@ -52,11 +33,82 @@ public class Main {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1:
-                    System.out.print("Enter Device ID to view camera feed: ");
-                    String deviceID = scanner.nextLine();
-                    homeUser.viewCameraFeed(deviceID);
-                    break;
+                case 1: //Manage User Accounts
+                while (true) {
+                    System.out.println("Manage User Accounts:");
+                    System.out.println("1. Add User");
+                    System.out.println("2. Update User");
+                    System.out.println("3. Delete User");
+                    System.out.println("4. Go Back");
+                    System.out.print("Choose an option: ");
+            
+                    int manageChoice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+            
+                    switch (manageChoice) {
+                        case 1: // Add User
+                            System.out.print("Enter your name: ");
+                            String name = scanner.nextLine();
+                            System.out.print("Enter your email: ");
+                            String email = scanner.nextLine();
+                            System.out.print("Enter your password: ");
+                            password = scanner.nextLine();
+                            System.out.print("Enter your phone number: ");
+                            String phoneNumber = scanner.nextLine();
+            
+                            HomeUser newUser = new HomeUser(name, email, password, phoneNumber);
+                            homeAdminUser.addUser(newUser); // Add user to the admin's list
+                            System.out.println("User added successfully!");
+                            break;
+            
+                        case 2: // Update User
+                            System.out.print("Enter the email of the user to update: ");
+                            String updateEmail = scanner.nextLine();
+                            // Assuming you have a method to find a user by email
+                            HomeUser userToUpdate = homeAdminUser.findUserByEmail(updateEmail);
+                            if (userToUpdate != null) {
+                                System.out.print("Enter new name (leave blank to keep current): ");
+                                String newName = scanner.nextLine();
+                                if (!newName.isEmpty()) userToUpdate.setName(newName);
+            
+                                System.out.print("Enter new password (leave blank to keep current): ");
+                                String newPassword = scanner.nextLine();
+                                if (!newPassword.isEmpty()) userToUpdate.setPassword(newPassword);
+            
+                                System.out.print("Enter new phone number (leave blank to keep current): ");
+                                String newPhoneNumber = scanner.nextLine();
+                                if (!newPhoneNumber.isEmpty()) userToUpdate.setPhoneNumber(newPhoneNumber);
+            
+                                System.out.println("User updated successfully!");
+                            } else {
+                                System.out.println("User not found.");
+                            }
+                            break;
+            
+                        case 3: // Delete User
+                            System.out.print("Enter the email of the user to delete: ");
+                            String deleteEmail = scanner.nextLine();
+                            boolean isDeleted = homeAdminUser.removeUserByEmail(deleteEmail);
+                            if (isDeleted) {
+                                System.out.println("User deleted successfully!");
+                            } else {
+                                System.out.println("User not found.");
+                            }
+                            break;
+            
+                        case 4: // Go Back
+                            System.out.println("Returning to main menu...");
+                            break;
+            
+                        default:
+                            System.out.println("Invalid option. Please try again.");
+                    }
+            
+                    if (manageChoice == 4) {
+                        break; // Exit the Manage User Accounts menu
+                    }
+                }
+                break;
                 case 2:
                     System.out.print("Enter alarm status (true/false): ");
                     boolean status = scanner.nextBoolean();
