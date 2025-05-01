@@ -8,8 +8,15 @@ public class EmergencyResponder extends User {
     }
 
     @Override
-    public void login() {
-        System.out.println(name + " (Emergency Responder) logged in.");
+    public boolean login(String name, String password) {
+        boolean isValid = false;
+        if (this.name.equals(name) && this.password.equals(password)) {
+            System.out.println("Login successful!");
+            isValid = true;
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+        }
+        return isValid;
     }
 
     @Override

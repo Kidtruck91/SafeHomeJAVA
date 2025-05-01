@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SystemLog {
-    private static List<SystemLog> logs = new ArrayList<>();
     private String logID;
     private String eventType;
     private LocalDateTime time;
@@ -16,17 +13,28 @@ public class SystemLog {
         this.user = user;
     }
 
-    public static void recordEvent(String type, User user) {
-        SystemLog log = new SystemLog(type, user);
-        logs.add(log);
-        System.out.println("LOG [" + log.logID + "]: " + log.eventType + " by " + user.name + " at " + log.time);
+    // Getter for logID
+    public String getLogID() {
+        return logID;
     }
 
-    public static void retrieveLogs(String userID) {
-        for (SystemLog log : logs) {
-            if (log.user != null && log.user.userID.equals(userID)) {
-                System.out.println(log.time + " - " + log.eventType);
-            }
-        }
+    // Getter for eventType
+    public String getEventType() {
+        return eventType;
+    }
+
+    // Getter for time
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    // Getter for user
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return "LOG [" + logID + "]: " + eventType + " by " + (user != null ? user.name : "Unknown User") + " at " + time;
     }
 }

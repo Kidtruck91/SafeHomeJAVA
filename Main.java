@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -22,8 +23,8 @@ public class Main {
         while (true) {
             System.out.println("Welcome to the Home User System");
             System.out.println("1. Manage User Accounts");
-            System.out.println("2. Set Alarm");
-            System.out.println("3. Configure Device");
+            System.out.println("2. Configure Security Settings");
+            System.out.println("3. Retrieve Activity Logs");
             System.out.println("4. Login");
             System.out.println("5. Logout");
             System.out.print("Choose an option: ");
@@ -108,15 +109,23 @@ public class Main {
                     }
                 }
                 break;
-                case 2:
-                    System.out.print("Enter alarm status (true/false): ");
-                    boolean status = scanner.nextBoolean();
-                    homeUser.setAlarm(status);
-                    break;
-                case 3:
-                    System.out.print("Enter Device ID to configure: ");
-                    String configDeviceID = scanner.nextLine();
-                    homeUser.configureDevice(configDeviceID);
+                case 2: // Configure Security Settings
+                System.out.print("Enter system status (On/Off): ");
+                String systemStatus = scanner.nextLine();
+            
+                homeAdminUser.configureSecuritySettings(systemStatus);
+                break;
+                case 3: // Retrieve Security Logs
+                    System.out.println("Retrieving security logs...");
+                    List<SystemLog> logs = homeAdminUser.getSystemLogs(); // Assuming this method exists in HomeAdminUser
+                    if (logs == null || logs.isEmpty()) {
+                        System.out.println("No security logs found.");
+                    } else {
+                        System.out.println("Security Log IDs:");
+                        for (SystemLog log : logs) {
+                            System.out.println("Log ID: " + log.getLogID());
+                        }
+                    }
                     break;
                 case 4:
                     homeUser.login();

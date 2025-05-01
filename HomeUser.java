@@ -122,6 +122,20 @@ public class HomeUser extends User {
             System.out.println("No devices found.");
         }
     }
+    public void configureSecuritySettings(String status) {
+        if (!status.equalsIgnoreCase("On") && !status.equalsIgnoreCase("Off")) {
+            System.out.println("Error: Invalid option. Please type 'On' or 'Off'.");
+            return;
+        }
+    
+        if (devices.isEmpty()) {
+            System.out.println("No devices found.");
+        } else {
+            for (Device device : devices) {
+                device.setStatus(status);
+            }
+            System.out.println("All devices have been set to '" + status + "'.");
+        }
     
 
     @Override
