@@ -1,7 +1,7 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class HomeUser extends User {
-    role = "User"
     private List<Device> devices;
 
     public HomeUser(String name, String email, String password, String phoneNumber) {
@@ -10,24 +10,55 @@ public class HomeUser extends User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.role = "User";
+        this.devices = new ArrayList<>();
     }
 
+    public void addDevice(Device device) {
+        devices.add(device);
+    }
+    public List<Device> getDeviceList() {
+        return devices;
+    }
     public void viewCameraFeed(String deviceID) {
-        // Access camera feed logic
+        for (Device d : devices) {
+            if (d instanceof Camera && d.getDeviceID().equals(deviceID)) {
+                ((Camera) d).streamVideo();
+                return;
+            }
+        }
+        System.out.println("No camera with ID: " + deviceID);
     }
 
     public void setAlarm(boolean status) {
-        // Logic to arm/disarm
+        for (Device d : devices) {
+            if (d instanceof Sensors) {
+                ((Sensors) d).setAlarm(status);
+            }
+        }
     }
 
     public void configureDevice(String deviceID) {
-        // Configure logic
+        for (Device d : devices) {
+            if (d instanceof Sensors && d.getDeviceID().equals(deviceID)) {
+                ((Sensors) d).configureDevice(deviceID);
+                return;
+            }
+        }
+        System.out.println("Sensor not found with ID: " + deviceID);
     }
 
     @Override
-    public void login() {}
+    public void login() {
+        System.out.println(name + " logged in.");
+    }
+
     @Override
-    public void logout() {}
+    public void logout() {
+        System.out.println(name + " logged out.");
+    }
+
     @Override
-    public void receiveAlert(Alert alert) {}
+    public void receiveAlert(Alert alert) {
+        System.out.println("ALERT RECEIVED: " + alert.getSummary());
+    }
 }

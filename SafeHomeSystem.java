@@ -6,7 +6,7 @@ public class SafeHomeSystem {
         Scanner scanner = new Scanner(System.in);
 
         // Dummy user for demonstration
-        HomeUser user = new HomeUser();
+        HomeUser user = new HomeUser("TestUser", "test@example.com", "1234", "555-1234");
         user.userID = "user123";
         user.name = "Alice";
         user.email = "alice@example.com";
@@ -39,7 +39,7 @@ public class SafeHomeSystem {
                     System.out.println("Door locked.");
                     break;
                 case 4:
-                    Alert alert = new Alert();
+                Alert alert = new Alert("Motion detected in Living Room", "High");
                     user.receiveAlert(alert);
                     break;
                 case 5:
