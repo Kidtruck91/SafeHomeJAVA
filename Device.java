@@ -32,4 +32,7 @@ public abstract class Device {
     public void setStatus(String status) {
         this.status = status;
     }
+    public Alert generateAlert(String message, String severity) {
+        return new Alert(message, severity, this.deviceID);
+    }
 }
