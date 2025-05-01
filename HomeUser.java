@@ -91,7 +91,7 @@ public class HomeUser extends User {
         if (devices != null && !devices.isEmpty()) {
             System.out.println("Devices: ");
             for (Device device : devices) {
-                System.out.println(device.getDeviceID() + ": " + device.getDeviceName());
+                System.out.println(device.getDeviceID());
             }
         } else {
             System.out.println("No devices found.");
