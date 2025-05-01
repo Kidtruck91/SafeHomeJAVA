@@ -136,6 +136,7 @@ public class HomeUser extends User {
             }
             System.out.println("All devices have been set to '" + status + "'.");
         }
+    }
     
 
     @Override

@@ -1,4 +1,11 @@
 public class EmergencyResponder extends User {
+    // Constructor
+    public EmergencyResponder(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = "Emergency Responder";
+    }
     public void accessLiveFeed() {
         System.out.println("EmergencyResponder accessing live feed...");
     }
