@@ -1,13 +1,29 @@
 public class MotionSensor extends Sensors {
-    @Override
-    public void configureDevice(String deviceID) {}
-    @Override
-    public void setAlarm(boolean status) {}
-    @Override
-    public void receiveAlert(Alert alert) {}
 
     @Override
-    public String getStatus() { return status; }
+    public void configureDevice(String deviceID) {
+        setDeviceID(deviceID);
+        System.out.println("MotionSensor " + getDeviceID() + " configured.");
+    }
+
     @Override
-    public void updateSettings(String newStatus) { status = newStatus; }
+    public void setAlarm(boolean status) {
+        setStatus(status ? "ALARM TRIGGERED" : "Normal");
+        System.out.println("MotionSensor alarm set: " + getRawStatus());
+    }
+
+    @Override
+    public void receiveAlert(Alert alert) {
+        System.out.println("MotionSensor received alert: " + alert.getMessage());
+    }
+
+    @Override
+    public String getStatus() {
+        return "MotionSensor at " + getLocation() + ": " + getRawStatus();
+    }
+
+    @Override
+    public void updateSettings(String newStatus) {
+        setStatus(newStatus);
+    }
 }
