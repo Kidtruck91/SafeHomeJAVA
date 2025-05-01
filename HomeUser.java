@@ -1,7 +1,7 @@
 import java.util.List;
-import java.util.ArrayList;
 
 public class HomeUser extends User {
+    
     private List<Device> devices;
 
     public HomeUser(String name, String email, String password, String phoneNumber) {
@@ -10,55 +10,133 @@ public class HomeUser extends User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.role = "User";
-        this.devices = new ArrayList<>();
     }
 
-    public void addDevice(Device device) {
-        devices.add(device);
-    }
-    public List<Device> getDeviceList() {
-        return devices;
-    }
     public void viewCameraFeed(String deviceID) {
-        for (Device d : devices) {
-            if (d instanceof Camera && d.getDeviceID().equals(deviceID)) {
-                ((Camera) d).streamVideo();
-                return;
-            }
-        }
-        System.out.println("No camera with ID: " + deviceID);
+        // Access camera feed logic
     }
 
     public void setAlarm(boolean status) {
-        for (Device d : devices) {
-            if (d instanceof Sensors) {
-                ((Sensors) d).setAlarm(status);
-            }
-        }
+        // Logic to arm/disarm
     }
 
     public void configureDevice(String deviceID) {
-        for (Device d : devices) {
-            if (d instanceof Sensors && d.getDeviceID().equals(deviceID)) {
-                ((Sensors) d).configureDevice(deviceID);
-                return;
-            }
+        // Configure logic
+    }
+
+     // Setter for name
+     public void setName(String name) {
+        this.name = name;
+    }
+
+    // Setter for password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Setter for phone number
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    // Getter for name
+    public String getName() {
+        return name;
+    }
+    // Getter for password
+    public String getPassword() {
+        return password;
+    }
+    // Getter for phone number
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+    // Getter for role
+    public String getRole() {
+        return role;
+    }
+    // Getter for userID
+    public String getUserID() {
+        return userID;
+    }
+    // Getter for email
+    public String getEmail() {
+        return email;
+    }
+    // Getter for devices
+    public List<Device> getDevices() {
+        return devices;
+    }
+    // Setter for devices
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
+    // Method to add a device to the user's list of devices
+    public void addDevice(Device device) {
+        if (devices != null) {
+            devices.add(device);
+        } else {
+            System.out.println("Device list is not initialized.");
         }
-        System.out.println("Sensor not found with ID: " + deviceID);
     }
+    // Method to remove a device from the user's list of devices
+    public void removeDevice(Device device) {
+        if (devices != null && devices.contains(device)) {
+            devices.remove(device);
+        } else {
+            System.out.println("Device not found in the list.");
+        }
+    }
+    // Method to view the list of devices
+    public void viewDevices() {
+        if (devices != null && !devices.isEmpty()) {
+            System.out.println("Devices: ");
+            for (Device device : devices) {
+                System.out.println(device.getDeviceID() + ": " + device.getDeviceName());
+            }
+        } else {
+            System.out.println("No devices found.");
+        }
+    }
+    // Method to view the status of a specific device
+    public void viewDeviceStatus(String deviceID) {
+        if (devices != null) {
+            for (Device device : devices) {
+                if (device.getDeviceID().equals(deviceID)) {
+                    System.out.println("Device ID: " + device.getDeviceID() + ", Status: " + device.getStatus());
+                    return;
+                }
+            }
+            System.out.println("Device not found.");
+        } else {
+            System.out.println("Device list is not initialized.");
+        }
+    }
+    // Method to view the status of all devices
+    public void viewAllDeviceStatus() {
+        if (devices != null && !devices.isEmpty()) {
+            System.out.println("All Device Status: ");
+            for (Device device : devices) {
+                System.out.println(device.getDeviceID() + ": " + device.getStatus());
+            }
+        } else {
+            System.out.println("No devices found.");
+        }
+    }
+    
 
     @Override
-    public void login() {
-        System.out.println(name + " logged in.");
+    public boolean login(String name, String password) {
+        boolean isValid = false;
+        if (this.name.equals(name) && this.password.equals(password)) {
+            System.out.println("Login successful!");
+            isValid = true;
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+        }
+        return isValid;
     }
-
     @Override
-    public void logout() {
-        System.out.println(name + " logged out.");
-    }
-
+    public void logout() {}
     @Override
-    public void receiveAlert(Alert alert) {
-        System.out.println("ALERT RECEIVED: " + alert.getSummary());
-    }
+    public void receiveAlert(Alert alert) {}
 }

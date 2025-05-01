@@ -6,7 +6,7 @@ public abstract class User {
     protected String phoneNumber;
     protected String role;
 
-    public abstract void login();
+    public abstract boolean login(String name, String password);
     public abstract void logout();
     public abstract void receiveAlert(Alert alert);
 }
